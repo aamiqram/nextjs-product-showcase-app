@@ -547,8 +547,7 @@ Contributions are welcome! Feel free to:
 
 For questions or feedback, please contact:
 
-- **GitHub**: [Your GitHub Profile]
-- **Email**: demo@example.com
+- **Email**: aamiqram24@gmail.com
 
 ---
 
