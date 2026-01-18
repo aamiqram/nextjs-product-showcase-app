@@ -9,14 +9,22 @@ export default function Navbar() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Check authentication status on component mount and route changes
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Check authentication status
   useEffect(() => {
     checkAuthStatus();
   }, [pathname]);
 
-  // Function to check if user is authenticated
   const checkAuthStatus = async () => {
     try {
       const response = await fetch("/api/auth/status");
@@ -26,190 +34,222 @@ export default function Navbar() {
         setUserEmail(data.user.email);
       }
     } catch (error) {
-      console.error("Auth check failed:", error);
       setIsLoggedIn(false);
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  // Handle user logout
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/auth/logout", { method: "POST" });
-      if (response.ok) {
-        setIsLoggedIn(false);
-        setUserEmail("");
-        router.push("/");
-        router.refresh();
-      }
+      await fetch("/api/auth/logout", { method: "POST" });
+      setIsLoggedIn(false);
+      setUserEmail("");
+      router.push("/");
+      router.refresh();
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
 
-  // Helper function to check if link is active
   const isActiveLink = (path) => {
-    if (path === "/") {
-      return pathname === "/";
-    }
+    if (path === "/") return pathname === "/";
     return pathname.startsWith(path);
   };
 
   return (
-    <nav className="navbar bg-base-100 shadow-lg sticky top-0 z-50 border-b border-base-200">
+    <nav
+      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/80 backdrop-blur-xl shadow-lg border-b border-gray-200"
+          : "bg-white/60 backdrop-blur-md"
+      }`}
+    >
       <div className="container mx-auto px-4">
-        {/* Logo/Brand Section */}
-        <div className="flex-1">
-          <Link
-            href="/"
-            className="btn btn-ghost text-xl md:text-2xl font-bold normal-case"
-          >
-            <span className="text-primary">🛍️</span>
-            <span className="hidden sm:inline ml-2">NextShop</span>
-          </Link>
-        </div>
-
-        {/* Desktop Navigation Menu */}
-        <div className="flex-none hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 gap-1">
-            <li>
-              <Link
-                href="/"
-                className={isActiveLink("/") ? "active font-semibold" : ""}
-              >
-                🏠 Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/items"
-                className={isActiveLink("/items") ? "active font-semibold" : ""}
-              >
-                📦 Products
-              </Link>
-            </li>
-            {isLoggedIn && (
-              <li>
-                <Link
-                  href="/add-item"
-                  className={
-                    isActiveLink("/add-item") ? "active font-semibold" : ""
-                  }
-                >
-                  ➕ Add Product
-                </Link>
-              </li>
-            )}
-          </ul>
-        </div>
-
-        {/* Auth Section - Desktop */}
-        <div className="flex-none gap-2 hidden md:flex">
-          {isLoading ? (
-            <div className="loading loading-spinner loading-sm"></div>
-          ) : isLoggedIn ? (
-            <div className="flex items-center gap-3">
-              {/* User Info Dropdown */}
-              <div className="dropdown dropdown-end">
-                <label
-                  tabIndex={0}
-                  className="btn btn-ghost btn-circle avatar placeholder"
-                >
-                  <div className="bg-primary text-primary-content rounded-full w-10">
-                    <span className="text-xl">
-                      {userEmail ? userEmail.charAt(0).toUpperCase() : "U"}
-                    </span>
-                  </div>
-                </label>
-                <ul
-                  tabIndex={0}
-                  className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-                >
-                  <li className="menu-title">
-                    <span className="text-xs">{userEmail}</span>
-                  </li>
-                  <li>
-                    <Link href="/add-item">➕ Add Product</Link>
-                  </li>
-                  <li>
-                    <button onClick={handleLogout} className="text-error">
-                      🚪 Logout
-                    </button>
-                  </li>
-                </ul>
-              </div>
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-lg">
+              <span className="text-2xl">🛍️</span>
             </div>
-          ) : (
-            <Link href="/login" className="btn btn-primary btn-sm">
-              🔐 Login
-            </Link>
-          )}
-        </div>
+            <span className="text-2xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hidden sm:block">
+              NextShop
+            </span>
+          </Link>
 
-        {/* Mobile Menu Button */}
-        <div className="flex-none lg:hidden">
-          <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-square">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block w-6 h-6 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-2">
+            <Link
+              href="/"
+              className={`px-4 py-2 rounded-full font-semibold transition-all ${
+                isActiveLink("/")
+                  ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
             >
-              <li>
-                <Link href="/" className={isActiveLink("/") ? "active" : ""}>
-                  🏠 Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/items"
-                  className={isActiveLink("/items") ? "active" : ""}
-                >
-                  📦 Products
-                </Link>
-              </li>
-              {isLoggedIn && (
-                <li>
-                  <Link
-                    href="/add-item"
-                    className={isActiveLink("/add-item") ? "active" : ""}
+              Home
+            </Link>
+            <Link
+              href="/items"
+              className={`px-4 py-2 rounded-full font-semibold transition-all ${
+                isActiveLink("/items")
+                  ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              Products
+            </Link>
+            {isLoggedIn && (
+              <Link
+                href="/add-item"
+                className={`px-4 py-2 rounded-full font-semibold transition-all ${
+                  isActiveLink("/add-item")
+                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                Add Product
+              </Link>
+            )}
+          </div>
+
+          {/* Auth Section - Desktop */}
+          <div className="hidden md:flex items-center gap-3">
+            {isLoggedIn ? (
+              <div className="flex items-center gap-3">
+                <div className="dropdown dropdown-end">
+                  <label
+                    tabIndex={0}
+                    className="btn btn-ghost btn-circle avatar"
                   >
-                    ➕ Add Product
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
+                      {userEmail.charAt(0).toUpperCase()}
+                    </div>
+                  </label>
+                  <ul
+                    tabIndex={0}
+                    className="mt-3 z-[1] p-2 shadow-xl menu menu-sm dropdown-content bg-white rounded-2xl w-52 border border-gray-200"
+                  >
+                    <li className="menu-title px-4 py-2">
+                      <span className="text-xs font-semibold text-gray-600">
+                        {userEmail}
+                      </span>
+                    </li>
+                    <li>
+                      <Link href="/add-item" className="rounded-xl">
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 4v16m8-8H4"
+                          />
+                        </svg>
+                        Add Product
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleLogout}
+                        className="text-red-600 rounded-xl"
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                          />
+                        </svg>
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+              >
+                Login
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden">
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-square">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="w-6 h-6 stroke-current"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  ></path>
+                </svg>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl bg-white rounded-2xl w-52 border border-gray-200"
+              >
+                <li>
+                  <Link href="/" className="rounded-xl">
+                    🏠 Home
                   </Link>
                 </li>
-              )}
-              <div className="divider my-0"></div>
-              {isLoggedIn ? (
-                <>
-                  <li className="menu-title">
-                    <span className="text-xs">{userEmail}</span>
-                  </li>
-                  <li>
-                    <button onClick={handleLogout} className="text-error">
-                      🚪 Logout
-                    </button>
-                  </li>
-                </>
-              ) : (
                 <li>
-                  <Link href="/login">🔐 Login</Link>
+                  <Link href="/items" className="rounded-xl">
+                    📦 Products
+                  </Link>
                 </li>
-              )}
-            </ul>
+                {isLoggedIn && (
+                  <li>
+                    <Link href="/add-item" className="rounded-xl">
+                      ➕ Add Product
+                    </Link>
+                  </li>
+                )}
+                <div className="divider my-1"></div>
+                {isLoggedIn ? (
+                  <>
+                    <li className="menu-title px-4">
+                      <span className="text-xs font-semibold text-gray-600">
+                        {userEmail}
+                      </span>
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleLogout}
+                        className="text-red-600 rounded-xl"
+                      >
+                        🚪 Logout
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <li>
+                    <Link href="/login" className="rounded-xl">
+                      🔐 Login
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -1,11 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow images from external sources
+  // Configure external image sources
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.unsplash.com",
+        port: "",
+        pathname: "/**",
       },
     ],
   },

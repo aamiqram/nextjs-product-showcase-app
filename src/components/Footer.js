@@ -4,178 +4,169 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-base-200 text-base-content border-t border-base-300">
+    <footer className="relative bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white overflow-hidden">
+      {/* Animated Background Pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-40"></div>
+
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="relative z-10 container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-3xl">🛍️</span>
-              <h3 className="text-xl font-bold">NextShop</h3>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-3xl">🛍️</span>
+              </div>
+              <span className="text-2xl font-black">NextShop</span>
             </div>
-            <p className="text-sm text-base-content/80 mb-4">
-              Your trusted marketplace for premium tech products. Quality
-              guaranteed since 2024.
+            <p className="text-white/80 mb-6 leading-relaxed">
+              Your trusted marketplace for premium tech products. Experience
+              quality, speed, and service.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="btn btn-circle btn-ghost btn-sm">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  className="fill-current"
+              {[
+                {
+                  icon: "M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z",
+                },
+                {
+                  icon: "M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z",
+                },
+                {
+                  icon: "M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z",
+                },
+              ].map((social, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-all hover:scale-110"
                 >
-                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
-                </svg>
-              </a>
-              <a href="#" className="btn btn-circle btn-ghost btn-sm">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  className="fill-current"
-                >
-                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-                </svg>
-              </a>
-              <a href="#" className="btn btn-circle btn-ghost btn-sm">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  className="fill-current"
-                >
-                  <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
-                </svg>
-              </a>
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d={social.icon} />
+                  </svg>
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/" className="link link-hover text-sm">
-                  🏠 Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/items" className="link link-hover text-sm">
-                  📦 Products
-                </Link>
-              </li>
-              <li>
-                <Link href="/login" className="link link-hover text-sm">
-                  🔐 Login
-                </Link>
-              </li>
-              <li>
-                <a href="#" className="link link-hover text-sm">
-                  📖 About Us
-                </a>
-              </li>
+            <h3 className="text-xl font-bold mb-6">Quick Links</h3>
+            <ul className="space-y-3">
+              {[
+                { name: "Home", href: "/" },
+                { name: "Products", href: "/items" },
+                { name: "About Us", href: "#" },
+                { name: "Contact", href: "#" },
+              ].map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href={link.href}
+                    className="text-white/80 hover:text-white hover:translate-x-1 inline-block transition-all"
+                  >
+                    {link.name} →
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Customer Service */}
+          {/* Support */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Customer Service</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="link link-hover text-sm">
-                  📞 Contact Us
-                </a>
-              </li>
-              <li>
-                <a href="#" className="link link-hover text-sm">
-                  ❓ FAQs
-                </a>
-              </li>
-              <li>
-                <a href="#" className="link link-hover text-sm">
-                  🚚 Shipping Info
-                </a>
-              </li>
-              <li>
-                <a href="#" className="link link-hover text-sm">
-                  🔄 Returns
-                </a>
-              </li>
+            <h3 className="text-xl font-bold mb-6">Support</h3>
+            <ul className="space-y-3">
+              {[
+                "Help Center",
+                "Track Order",
+                "Shipping Info",
+                "Returns",
+                "FAQs",
+              ].map((item, index) => (
+                <li key={index}>
+                  <a
+                    href="#"
+                    className="text-white/80 hover:text-white hover:translate-x-1 inline-block transition-all"
+                  >
+                    {item} →
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Newsletter</h3>
-            <p className="text-sm text-base-content/80 mb-4">
-              Subscribe to get special offers and updates directly to your
-              inbox.
+            <h3 className="text-xl font-bold mb-6">Stay Updated</h3>
+            <p className="text-white/80 mb-4">
+              Subscribe for exclusive offers and updates.
             </p>
-            <div className="form-control">
-              <div className="join">
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  className="input input-bordered input-sm join-item w-full"
-                />
-                <button className="btn btn-primary btn-sm join-item">
-                  Subscribe
-                </button>
-              </div>
+            <div className="flex flex-col gap-3">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                className="px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+              />
+              <button className="px-6 py-3 bg-white text-purple-900 font-bold rounded-xl hover:bg-white/90 transition-all hover:scale-105 shadow-lg">
+                Subscribe
+              </button>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="bg-base-300">
-        <div className="container mx-auto px-4 py-4">
+        {/* Divider */}
+        <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Copyright */}
-            <div className="text-sm text-base-content/70 text-center md:text-left">
-              © {currentYear} NextShop. All rights reserved. Built with Next.js
-              16 & DaisyUI 5.
+            <div className="text-white/70 text-sm text-center md:text-left">
+              © {currentYear} NextShop. All rights reserved. Built with ❤️ using
+              Next.js 16
             </div>
 
             {/* Legal Links */}
-            <div className="flex gap-4 text-sm">
-              <a href="#" className="link link-hover text-base-content/70">
-                Privacy Policy
+            <div className="flex gap-6 text-sm">
+              <a
+                href="#"
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                Privacy
               </a>
-              <a href="#" className="link link-hover text-base-content/70">
-                Terms of Service
+              <a
+                href="#"
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                Terms
               </a>
-              <a href="#" className="link link-hover text-base-content/70">
-                Cookie Policy
+              <a
+                href="#"
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                Cookies
               </a>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Back to Top Button */}
+      {/* Back to Top Button - Fixed */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="btn btn-circle btn-primary fixed bottom-8 right-8 shadow-lg hidden md:flex"
+        className="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-full shadow-2xl hover:scale-110 transition-all z-50 flex items-center justify-center group"
         aria-label="Back to top"
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6 group-hover:-translate-y-1 transition-transform"
           fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={2}
           stroke="currentColor"
-          className="w-6 h-6"
+          viewBox="0 0 24 24"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            d="M4.5 15.75l7.5-7.5 7.5 7.5"
+            strokeWidth={3}
+            d="M5 10l7-7m0 0l7 7m-7-7v18"
           />
         </svg>
       </button>
