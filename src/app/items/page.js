@@ -1,18 +1,16 @@
 import ItemCard from "@/components/ItemCard";
+import { getAllItems } from "@/lib/mockDb";
 
-// Fetch items from API
+// Mark this page as dynamic to prevent build errors
+export const dynamic = "force-dynamic";
+
+// Get items directly from mock database (no API call needed during build)
 async function getItems() {
   try {
-    const response = await fetch("http://localhost:3000/api/items", {
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch items");
-    }
-
-    const data = await response.json();
-    return data.items;
+    // During build, just use the mock database directly
+    // In production, this will still work fine
+    const items = getAllItems();
+    return items;
   } catch (error) {
     console.error("Error fetching items:", error);
     return [];

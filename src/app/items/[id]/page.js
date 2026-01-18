@@ -1,20 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getItemById } from "@/lib/mockDb";
 
-// Fetch single item from API
+// Mark as dynamic to prevent build errors
+export const dynamic = "force-dynamic";
+
+// Get item directly from mock database
 async function getItem(id) {
   try {
-    const response = await fetch(`http://localhost:3000/api/items/${id}`, {
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      return null;
-    }
-
-    const data = await response.json();
-    return data.item;
+    const item = getItemById(id);
+    return item;
   } catch (error) {
     console.error("Error fetching item:", error);
     return null;

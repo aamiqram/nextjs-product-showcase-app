@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
-export default function LoginPage() {
+// Separate component for search params logic
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/items";
@@ -203,12 +204,27 @@ export default function LoginPage() {
 
         {/* Additional Info */}
         <p className="text-center text-white/60 mt-6">
-          New Here?
+          Don't have an account?
           <a href="#" className="text-white font-semibold ml-2 hover:underline">
             Sign up
           </a>
         </p>
       </div>
     </div>
+  );
+}
+
+// Main component with Suspense boundary
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
+          <div className="text-white text-xl">Loading...</div>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }
